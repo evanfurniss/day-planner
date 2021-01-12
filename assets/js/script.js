@@ -1,12 +1,96 @@
-//Using the frame work set up for us, we need to create rows that identify the hours of your day.
-    //Set up hours starting at the beginning of your work day and a new hour each hour until your last hour of the day.
-    //Within each hour, you should be able to input text in the main display for that hour and save it to local storage.
-    //The current hour is highlighted Green (or some color), past hours should be grey (or some unique color), and upcoming hours should be red(or some unique color)
+// My day schedule, from 9am-6pm
+var daySchedule = [
+    {
+        armytime: 9,
+        hour: 9,
+        timeToggle: "am",
+        message: ""
+    },
+    {
+        armytime: 10,
+        hour: 10,
+        timeToggle: "am",
+        message: ""
+    },
+    {
+        armytime: 11,
+        hour: 11,
+        timeToggle: "am",
+        message: ""
+    },
+    {
+        armytime: 12,
+        hour: 12,
+        timeToggle: "pm",
+        message: ""
+    },
+    {
+        armytime: 13,
+        hour: 1,
+        timeToggle: "pm",
+        message: ""
+    },
+    {
+        armytime: 14,
+        hour: 2,
+        timeToggle: "pm",
+        message: ""
+    },
+    {
+        armytime: 15,
+        hour: 3,
+        timeToggle: "pm",
+        message: ""
+    },
+    {
+        armytime: 16,
+        hour: 4,
+        timeToggle: "pm",
+        message: ""
+    },
+    {
+        armytime: 17,
+        hour: 5,
+        timeToggle: "pm",
+        message: ""
+    }
+]
 
-// A running clock should be operating in the background.
-    //When the clock reaches a new hour, the current hour will move up
-    // when the current hour moves up, the previous hour should grey, the current should green, the future should remain red
+// Sets the date at top of screen
+setTime();
+function setTime() {
+    var currTime = $("#currentDay");
+    currTime.text(dayjs().format("ddd. MMMM DD, YYYY"));
+}
 
-//Each hour should have a save button that will save the information of that one specific hour to local stoarge
-    //If the user creates multiple hours of information but only saves for one of those hours, the other hours will not save
-    //Maybe try to create a save all button that will save each hour of information.
+//creates hourly planner
+daySchedule.forEach(function(day) {
+    //creates the row to hold info for that specific hour
+    var hourRow = $("<form>").attr("class", "row");
+    $(".container").append(hourRow);
+
+    //Tags that row with a specific hour of the work day
+    var hourOfDay = $("<div>").text(day.hour + " " + day.timeToggle).attr("class", "col-md-1 hour");
+    
+    //Creates a textbox that can be used for reminders/meetings/deadlines etc.
+    var messages = $("<textarea>");
+
+    //Checks hours and modifies the color based on previously set up CSS
+    if(day.armytime < dayjs().format("HH")) {
+        messages.attr("class", "past col-md-9 description");
+    } else if(day.armytime === dayjs().format("HH")) {
+        messages.attr("class", "present col-md-9 description");
+    } else if(day.armytime > dayjs().format("HH")) {
+        messages.attr("class", "future col-md-9 description");
+    }
+
+    //Creates a save button per hour
+    var saveBtn = $("<button>").attr("class", "col-md-1 saveBtn");
+
+    hourRow.append(hourOfDay, messages, saveBtn);
+});
+
+saveHour();
+function saveHour () {
+    localStorage.setItem("daySchedule", JSON.stringify(daySchedule));
+}
