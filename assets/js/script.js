@@ -65,18 +65,16 @@ var daySchedule = [
     }
 ]
 
-// Sets the date at top of screen
+// Sets the date at top of screen and loads any saved information
 setTime();
 function setTime() {
     var currTime = $("#currentDay");
     currTime.text(dayjs().format("ddd. MMMM DD, YYYY"));
 
+    //Checks if there is a saved daySchedule in local storage and if so, will replace daySchedule raw with the populated message tab
     var dayPlan = JSON.parse(localStorage.getItem("daySchedule"));
     if (dayPlan) {
-        for (let i = 0; i < dayPlan.length; i++) {
-            $(".description").siblings($("#"+i)).text(dayPlan[i].message);
-            console.log($(".description").siblings($("#"+i)).text(dayPlan[i].message));
-        }
+        daySchedule = dayPlan;
     }
 }
 
@@ -99,6 +97,11 @@ daySchedule.forEach(function(day) {
         messages.attr("class", "present col-md-9 description");
     } else if(day.armytime > dayjs().format("HH")) {
         messages.attr("class", "future col-md-9 description");
+    }
+
+    //If a message exists for that hour, it will append it onto that message tag
+    if (day.message){
+        messages.append(day.message);
     }
 
     //Creates a save button per hour
