@@ -29,3 +29,4 @@ w3schools has, once again, been incredibly helpful. They are able to explain so 
 ![Landing page](assets/images/first.png)
 ![Entered text in text area](assets/images/second.png)
 ![Example showing local storage accessibility](assets/images/third.png)
+![Example gif of localStorage saving only the saved rows](assets/images/example.gif)
