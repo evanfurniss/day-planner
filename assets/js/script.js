@@ -70,11 +70,13 @@ setTime();
 function setTime() {
     var currTime = $("#currentDay");
     currTime.text(dayjs().format("ddd. MMMM DD, YYYY"));
-    if (daySchedule) {
-        
-    }
-    else {
-        JSON.parse(localStorage.getItem("daySchedule"));
+
+    var dayPlan = JSON.parse(localStorage.getItem("daySchedule"));
+    if (dayPlan) {
+        for (let i = 0; i < dayPlan.length; i++) {
+            $(".description").siblings($("#"+i)).text(dayPlan[i].message);
+            console.log($(".description").siblings($("#"+i)).text(dayPlan[i].message));
+        }
     }
 }
 
@@ -115,7 +117,6 @@ $(".saveBtn").on("click", saveHour);
 function saveHour(e) {
     e.preventDefault();
     var newPlan = $(this).siblings(".description").val();
-    // daySchedule[this.id].setAttribute("message", newPlan);
     daySchedule[this.id].message = newPlan;
     localStorage.setItem("daySchedule", JSON.stringify(daySchedule));
 }
